@@ -1,18 +1,18 @@
 //
-//  XMLParser.swift
+//  LocationParser.swift
 //  Weather1
 //
-//  Created by ton on 1/4/2559 BE.
-//  Copyright © 2559 bananacoding. All rights reserved.
+//  Created by Teerapong on 1/12/16.
+//  Copyright © 2016 bananacoding. All rights reserved.
 //
 
 import UIKit
 
-class XMLParser: NSObject, NSXMLParserDelegate {
-    
+class LocationParser: NSObject, NSXMLParserDelegate {
     private var parser = NSXMLParser()
     private var element = String()
     var weather = Weather()
+   
     
     init(url: String) {
         super.init()
@@ -31,37 +31,22 @@ class XMLParser: NSObject, NSXMLParserDelegate {
     func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String]) {
         
         element = elementName
-        
-        if elementName == "item" {
+        print("GU Come->>>>>")
+        if elementName == "woeid" {
             weather = Weather()
         }
-        
-        
-        if elementName == "yweather:condition" {
-            weather.descriptionOfConditions = attributeDict["text"]!
-            weather.temp = attributeDict["temp"]!
-        }
-        
-        if elementName == "yweather:forecast" {
-            var forecast = [String: String]()
-            
-            forecast["day"] = attributeDict["day"]!
-            forecast["descriptionOfConditions"] = attributeDict["text"]!
-            forecast["lowTemp"] = attributeDict["low"]!
-            forecast["highTemp"] = attributeDict["high"]!
-            
-            weather.forecasts.append(forecast)
-        }
+
     }
     
     func parser(parser: NSXMLParser, foundCharacters string: String) {
-        if element == "title" {
-            weather.title += string
+        if element == "woeid" {
+            weather.woeid += string
+            print(weather.woeid)
         }
     }
     
     func parser(parser: NSXMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
-        if elementName == "item" {
+        if elementName == "woeid" {
             return;
         }
     }
